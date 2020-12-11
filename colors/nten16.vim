@@ -1,6 +1,6 @@
 hi clear
 syntax reset
-let g:colors_name = "nten16v2"
+let g:colors_name = "nten16"
 set background=dark
 set t_Co=256
 hi Normal guifg=#dfdfdf ctermbg=NONE guibg=#262a2b gui=NONE
@@ -47,7 +47,7 @@ hi DiffChange guifg=#ecbe7b guibg=NONE
 hi GitGutterChange guifg=#ecbe7b guibg=NONE
 hi cssColor guifg=#ecbe7b guibg=NONE
 hi Function guifg=#008dcd guibg=NONE
-hi Directory guifg=#c678dd guibg=NONE
+hi Directory guifg=#51afef guibg=NONE
 hi markdownLinkText guifg=#c678dd guibg=NONE
 hi javaScriptBoolean guifg=#c678dd guibg=NONE
 hi Include guifg=#c678dd guibg=NONE
