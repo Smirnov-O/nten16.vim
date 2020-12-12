@@ -31,7 +31,6 @@ hi PreCondit guifg=#ecbe7b guibg=NONE
 hi Debug guifg=#ecbe7b guibg=NONE
 hi SpecialChar guifg=#ecbe7b guibg=NONE
 hi Conditional guifg=#ecbe7b guibg=NONE
-hi Todo guifg=#ecbe7b guibg=NONE
 hi Special guifg=#ecbe7b guibg=NONE
 hi Label guifg=#ecbe7b guibg=NONE
 hi Delimiter guifg=#ecbe7b guibg=NONE
@@ -46,14 +45,15 @@ hi Macro guifg=#ecbe7b guibg=NONE
 hi DiffChange guifg=#ecbe7b guibg=NONE
 hi GitGutterChange guifg=#ecbe7b guibg=NONE
 hi cssColor guifg=#ecbe7b guibg=NONE
-hi Function guifg=#008dcd guibg=NONE
-hi Directory guifg=#51afef guibg=NONE
 hi markdownLinkText guifg=#c678dd guibg=NONE
 hi javaScriptBoolean guifg=#c678dd guibg=NONE
 hi Include guifg=#c678dd guibg=NONE
 hi Storage guifg=#c678dd guibg=NONE
 hi cssClassName guifg=#c678dd guibg=NONE
 hi cssClassNameDot guifg=#c678dd guibg=NONE
+hi Function guifg=#008dcd guibg=NONE
+hi Todo guifg=#008dcd guibg=NONE
+hi Directory guifg=#51afef guibg=NONE
 hi Statement guifg=#51afef guibg=NONE
 hi Operator guifg=#51afef guibg=NONE
 hi cssAttr guifg=#51afef guibg=NONE
@@ -73,4 +73,4 @@ hi StatusLine gui=bold guibg=#1f2324 guifg=#dfdfdf
 hi StatusLineNC gui=NONE guibg=#262a2b guifg=#dfdfdf
 hi Search guibg=#888888 guifg=#dfdfdf
 hi VertSplit gui=NONE guifg=#1f2324 guibg=NONE
-hi Visual gui=NONE guibg=#1f2324
+hi Visual gui=NONE guibg=#d8d8d8
