@@ -62,7 +62,7 @@ hi Pmenu guifg=#dfdfdf guibg=#1f2324
 hi SignColumn guibg=#262a2b
 hi Title guifg=#dfdfdf
 hi LineNr guifg=#797979 guibg=#262a2b
-hi NonText guifg=#888888 guibg=#262a2b
+hi NonText guifg=#888888
 hi Comment guifg=#888888 gui=italic
 hi SpecialComment guifg=#888888 gui=italic guibg=#262a2b
 hi CursorLine guibg=#1f2324
