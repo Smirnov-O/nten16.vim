@@ -4,12 +4,16 @@
 ------------------- 
 
 ### Install
-~~~vim
+```vim
 " with vim-plug
 Plug 'Smirnov-O/nten16.vim'
 
+" Set colorscheme
+set termguicolors
 colorscheme nten16
+
+" Lightline
 let g:lightline = {
 \ 'colorscheme': 'nten16'
 \ }
-~~~
+```
