@@ -1,5 +1,4 @@
 let s:black = [ '#1F2324', 0 ]
-"let s:black = [ '#262A2B', 0 ]
 let s:maroon = [ '#ff6c6b', 1 ]
 let s:green = [ '#98BE65', 2 ]
 let s:olive = [ '#ECBE7B', 3 ]
