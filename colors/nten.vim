@@ -1,5 +1,4 @@
-" nten16.vim
-let g:colors_name = "nten16"
+let g:colors_name = "nten"
 set background=dark
 syntax reset
 set t_Co=256
@@ -40,7 +39,7 @@ hi CursorLineNR guifg=#ecbe7b guibg=NONE
 hi Define guifg=#ecbe7b guibg=NONE
 hi MoreMsg guifg=#ecbe7b guibg=NONE
 hi Tag guifg=#ecbe7b guibg=NONE
-hi String guifg=#6A9759 guibg=NONE
+hi String guifg=#ecbe7b guibg=NONE
 hi MatchParen guifg=#ecbe7b guibg=NONE
 hi Macro guifg=#ecbe7b guibg=NONE
 hi DiffChange guifg=#ecbe7b guibg=NONE
