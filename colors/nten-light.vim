@@ -1,7 +1,8 @@
-syntax reset
 let g:colors_name = "nten-light"
 set background=light
+syntax reset
 set t_Co=256
+set termguicolors
 
 hi clear
 hi Normal guifg=#383a42 ctermbg=NONE guibg=#f9f9f9 gui=NONE
@@ -57,7 +58,6 @@ hi cssClassNameDot guifg=#275fe4 guibg=NONE
 hi Statement guifg=#008dcd guibg=NONE
 hi Operator guifg=#008dcd guibg=NONE
 hi cssAttr guifg=#008dcd guibg=NONE
-
 
 hi Pmenu guifg=#383a42 guibg=#f3f3f3
 hi SignColumn guibg=#f9f9f9

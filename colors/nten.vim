@@ -2,6 +2,7 @@ let g:colors_name = "nten"
 set background=dark
 syntax reset
 set t_Co=256
+set termguicolors
 
 hi clear
 hi Normal guifg=#dfdfdf ctermbg=NONE guibg=#262a2b gui=NONE
