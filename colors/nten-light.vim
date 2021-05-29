@@ -1,11 +1,10 @@
 let g:colors_name = "nten-light"
 set background=light
 syntax reset
-set t_Co=256
 set termguicolors
 
 hi clear
-hi Normal guifg=#383a42 ctermbg=NONE guibg=#f9f9f9 gui=NONE
+hi Normal guifg=#383a42 ctermbg=NONE guibg=#f6f6f6 gui=NONE
 hi DiffText guifg=#98be65 guibg=NONE
 hi ErrorMsg guifg=#98be65 guibg=NONE
 hi WarningMsg guifg=#98be65 guibg=NONE
@@ -42,12 +41,12 @@ hi Define guifg=#e88501 guibg=NONE
 hi MoreMsg guifg=#e88501 guibg=NONE
 hi Tag guifg=#e88501 guibg=NONE
 hi String guifg=#e88501 guibg=NONE
-hi MatchParen guifg=#e88501 guibg=NONE
+hi MatchParen guifg=#23974a guibg=NONE
 hi Macro guifg=#e88501 guibg=NONE
 hi DiffChange guifg=#e88501 guibg=NONE
 hi GitGutterChange guifg=#e88501 guibg=NONE
 hi cssColor guifg=#e88501 guibg=NONE
-hi Function guifg=#0098dd guibg=NONE
+hi Function guifg=#2080D9 guibg=NONE
 hi Directory guifg=#275fe4 guibg=NONE
 hi markdownLinkText guifg=#275fe4 guibg=NONE
 hi javaScriptBoolean guifg=#275fe4 guibg=NONE
@@ -59,18 +58,18 @@ hi Statement guifg=#008dcd guibg=NONE
 hi Operator guifg=#008dcd guibg=NONE
 hi cssAttr guifg=#008dcd guibg=NONE
 
-hi Pmenu guifg=#383a42 guibg=#f3f3f3
-hi SignColumn guibg=#f9f9f9
+hi Pmenu guifg=#383a42 guibg=#f2f2f2
+hi SignColumn guibg=#f6f6f6
 hi Title guifg=#383a42
-hi LineNr guifg=#9b9eab guibg=#f9f9f9
+hi LineNr guifg=#9b9eab guibg=#f6f6f6
 hi NonText guifg=#a0a1a7
 hi Comment guifg=#a0a1a7 gui=italic
 hi SpecialComment guifg=#a0a1a7 gui=italic guibg=NONE
-hi CursorLine guibg=#f3f3f3
-hi TabLineFill gui=NONE guibg=#f3f3f3
-hi TabLine guifg=#9b9eab guibg=#f3f3f3 gui=NONE
-hi StatusLine gui=bold guibg=#f3f3f3 guifg=#383a42
-hi StatusLineNC gui=NONE guibg=#f9f9f9 guifg=#383a42
-hi Search guibg=#a0a1a7 guifg=#f9f9f9
-hi VertSplit gui=NONE guifg=#f3f3f3 guibg=NONE
-hi Visual gui=NONE guibg=#f3f3f3
+hi CursorLine guibg=#f2f2f2
+hi TabLineFill gui=NONE guibg=#f6f6f6
+hi TabLine guifg=#9b9eab guibg=#f6f6f6 gui=NONE
+hi StatusLine gui=bold guibg=#f6f6f6 guifg=#383a42
+hi StatusLineNC gui=NONE guibg=#f6f6f6 guifg=#383a42
+hi Search guibg=#a0a1a7 guifg=#f6f6f6
+hi VertSplit gui=NONE guifg=#ededed guibg=NONE
+hi Visual gui=NONE guibg=#ededed
