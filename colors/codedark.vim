@@ -1,548 +1,263 @@
-let g:colors_name="codedark"
-set termguicolors
+" Maintainer: Smirnov Alexander <ss2316544@gmail.com>
+
 set background=dark
 hi clear
-if exists("syntax_on")
-    syntax reset
+if exists('syntax_on')
+  syntax reset
 endif
+let g:colors_name='codedark'
 
-if &t_Co >= 256
-    let g:codedark_term256=1
-elseif !exists("g:codedark_term256")
-    let g:codedark_term256=0
-endif
-fun! <sid>hi(group, fg, bg, attr, sp)
-  if !empty(a:fg)
-    exec "hi " . a:group . " guifg=" . a:fg.gui . " ctermfg=" . (g:codedark_term256 ? a:fg.cterm256 : a:fg.cterm)
-  endif
-  if !empty(a:bg)
-    exec "hi " . a:group . " guibg=" . a:bg.gui . " ctermbg=" . (g:codedark_term256 ? a:bg.cterm256 : a:bg.cterm)
-  endif
-  if a:attr != ""
-    exec "hi " . a:group . " gui=" . a:attr . " cterm=" . a:attr
-  endif
-  if !empty(a:sp)
-    exec "hi " . a:group . " guisp=" . a:sp.gui
-  endif
-endfun
-
-" ------------------
-" Color definitions:
-" ------------------
-
-" Terminal colors (base16):
-let s:cterm00 = "00"
-let s:cterm03 = "08"
-let s:cterm05 = "07"
-let s:cterm07 = "15"
-let s:cterm08 = "01"
-let s:cterm0A = "03"
-let s:cterm0B = "02"
-let s:cterm0C = "06"
-let s:cterm0D = "04"
-let s:cterm0E = "05"
-if exists('base16colorspace') && base16colorspace == "256"
-  let s:cterm01 = "18"
-  let s:cterm02 = "19"
-  let s:cterm04 = "20"
-  let s:cterm06 = "21"
-  let s:cterm09 = "16"
-  let s:cterm0F = "17"
-else
-  let s:cterm01 = "00"
-  let s:cterm02 = "08"
-  let s:cterm04 = "07"
-  let s:cterm06 = "07"
-  let s:cterm09 = "06"
-  let s:cterm0F = "03"
-endif
-
-" General appearance colors:
-" (some of them may be unused)
-
-let s:cdNone = {'gui': 'NONE', 'cterm': 'NONE', 'cterm256': 'NONE'}
-let s:cdFront = {'gui': '#D4D4D4', 'cterm': s:cterm05, 'cterm256': '188'}
-let s:cdBack = {'gui': '#1E1E1E', 'cterm': s:cterm00, 'cterm256': '234'}
-
-let s:cdTabCurrent = {'gui': '#1E1E1E', 'cterm': s:cterm00, 'cterm256': '234'}
-let s:cdTabOther = {'gui': '#2D2D2D', 'cterm': s:cterm01, 'cterm256': '236'}
-let s:cdTabOutside = {'gui': '#252526', 'cterm': s:cterm01, 'cterm256': '235'}
-
-let s:cdLeftDark = {'gui': '#252526', 'cterm': s:cterm01, 'cterm256': '235'}
-let s:cdLeftMid = {'gui': '#373737', 'cterm': s:cterm03, 'cterm256': '237'}
-let s:cdLeftLight = {'gui': '#3F3F46', 'cterm': s:cterm03, 'cterm256': '238'}
-
-let s:cdPopupFront = {'gui': '#BBBBBB', 'cterm': s:cterm06, 'cterm256': '250'}
-let s:cdPopupBack = {'gui': '#2D2D30', 'cterm': s:cterm01, 'cterm256': '236'}
-let s:cdPopupHighlightBlue = {'gui': '#073655', 'cterm': s:cterm0D, 'cterm256': '24'}
-let s:cdPopupHighlightGray = {'gui': '#3D3D40', 'cterm': s:cterm03, 'cterm256': '237'}
-
-let s:cdSplitLight = {'gui': '#898989', 'cterm': s:cterm04, 'cterm256': '245'}
-let s:cdSplitDark = {'gui': '#444444', 'cterm': s:cterm03, 'cterm256': '238'}
-let s:cdSplitThumb = {'gui': '#424242', 'cterm': s:cterm04, 'cterm256': '238'}
-
-let s:cdCursorDarkDark = {'gui': '#222222', 'cterm': s:cterm01, 'cterm256': '235'}
-let s:cdCursorDark = {'gui': '#51504F', 'cterm': s:cterm03, 'cterm256': '239'}
-let s:cdCursorLight = {'gui': '#AEAFAD', 'cterm': s:cterm04, 'cterm256': '145'}
-let s:cdSelection = {'gui': '#264F78', 'cterm': s:cterm03, 'cterm256': '24'}
-let s:cdLineNumber = {'gui': '#5A5A5A', 'cterm': s:cterm04, 'cterm256': '240'}
-
-let s:cdDiffRedDark = {'gui': '#4B1818', 'cterm': s:cterm08, 'cterm256': '52'}
-let s:cdDiffRedLight = {'gui': '#6F1313', 'cterm': s:cterm08, 'cterm256': '52'}
-let s:cdDiffRedLightLight = {'gui': '#FB0101', 'cterm': s:cterm08, 'cterm256': '09'}
-let s:cdDiffGreenDark = {'gui': '#373D29', 'cterm': s:cterm0B, 'cterm256': '237'}
-let s:cdDiffGreenLight = {'gui': '#4B5632', 'cterm': s:cterm09, 'cterm256': '58'}
-
-let s:cdSearchCurrent = {'gui': '#4B5632', 'cterm': s:cterm09, 'cterm256': '58'} 
-let s:cdSearch = {'gui': '#264F78', 'cterm': s:cterm03, 'cterm256': '24'}
-
-" Syntax colors:
-
-if !exists("g:codedark_conservative")
-    let g:codedark_conservative=0
-endif
-
-let s:cdGray = {'gui': '#808080', 'cterm': s:cterm04, 'cterm256': '08'}
-let s:cdViolet = {'gui': '#646695', 'cterm': s:cterm04, 'cterm256': '60'}
-let s:cdBlue = {'gui': '#569CD6', 'cterm': s:cterm0D, 'cterm256': '75'}
-let s:cdDarkBlue = {'gui': '#223E55', 'cterm': s:cterm0D, 'cterm256': '73'}
-let s:cdLightBlue = {'gui': '#9CDCFE', 'cterm': s:cterm0C, 'cterm256': '117'}
-if g:codedark_conservative | let s:cdLightBlue = s:cdFront | endif
-let s:cdGreen = {'gui': '#6A9955', 'cterm': s:cterm0B, 'cterm256': '65'}
-let s:cdBlueGreen = {'gui': '#4EC9B0', 'cterm': s:cterm0F, 'cterm256': '43'}
-let s:cdLightGreen = {'gui': '#B5CEA8', 'cterm': s:cterm09, 'cterm256': '151'}
-let s:cdRed = {'gui': '#F44747', 'cterm': s:cterm08, 'cterm256': '203'}
-let s:cdOrange = {'gui': '#CE9178', 'cterm': s:cterm0F, 'cterm256': '173'}
-let s:cdLightRed = {'gui': '#D16969', 'cterm': s:cterm08, 'cterm256': '167'}
-if g:codedark_conservative | let s:cdLightRed = s:cdOrange | endif
-let s:cdYellowOrange = {'gui': '#D7BA7D', 'cterm': s:cterm0A, 'cterm256': '179'}
-let s:cdYellow = {'gui': '#DCDCAA', 'cterm': s:cterm0A, 'cterm256': '187'}
-if g:codedark_conservative | let s:cdYellow = s:cdFront | endif
-let s:cdPink = {'gui': '#C586C0', 'cterm': s:cterm0E, 'cterm256': '176'}
-if g:codedark_conservative | let s:cdPink = s:cdBlue | endif
-
-" Vim editor colors
-"    <sid>hi(GROUP, FOREGROUND, BACKGROUND, ATTRIBUTE, SPECIAL)
-call <sid>hi('Normal', s:cdFront, s:cdBack, 'none', {})
-call <sid>hi('ColorColumn', {}, s:cdCursorDarkDark, 'none', {})
-call <sid>hi('Cursor', s:cdCursorDark, s:cdCursorLight, 'none', {})
-call <sid>hi('CursorLine', {}, s:cdCursorDarkDark, 'none', {})
-call <sid>hi('CursorColumn', {}, s:cdCursorDarkDark, 'none', {})
-call <sid>hi('Directory', s:cdBlue, s:cdBack, 'none', {})
-call <sid>hi('DiffAdd', {}, s:cdDiffGreenLight, 'none', {})
-call <sid>hi('DiffChange', {}, s:cdDiffRedDark, 'none', {})
-call <sid>hi('DiffDelete', {}, s:cdDiffRedLight, 'none', {})
-call <sid>hi('DiffText', {}, s:cdDiffRedLight, 'none', {})
-call <sid>hi('EndOfBuffer', s:cdLineNumber, s:cdBack, 'none', {})
-call <sid>hi('ErrorMsg', s:cdRed, s:cdBack, 'none', {})
-call <sid>hi('VertSplit', s:cdSplitDark, s:cdBack, 'none', {})
-call <sid>hi('Folded', s:cdLeftLight, s:cdLeftDark, 'underline', {})
-call <sid>hi('FoldColumn', s:cdLineNumber, s:cdBack, 'none', {})
-call <sid>hi('SignColumn', {}, s:cdBack, 'none', {})
-call <sid>hi('IncSearch', s:cdNone, s:cdSearchCurrent, 'none', {})
-call <sid>hi('LineNr', s:cdLineNumber, s:cdBack, 'none', {})
-call <sid>hi('CursorLineNr', s:cdPopupFront, s:cdBack, 'none', {})
-call <sid>hi('MatchParen', s:cdNone, s:cdCursorDark, 'none', {})
-call <sid>hi('ModeMsg', s:cdFront, s:cdLeftDark, 'none', {})
-call <sid>hi('MoreMsg', s:cdFront, s:cdLeftDark, 'none', {})
-call <sid>hi('NonText', s:cdLineNumber, s:cdBack, 'none', {})
-call <sid>hi('Pmenu', s:cdPopupFront, s:cdPopupBack, 'none', {})
-call <sid>hi('PmenuSel', s:cdPopupFront, s:cdPopupHighlightBlue, 'none', {})
-call <sid>hi('PmenuSbar', {}, s:cdPopupHighlightGray, 'none', {})
-call <sid>hi('PmenuThumb', {}, s:cdPopupFront, 'none', {})
-call <sid>hi('Question', s:cdBlue, s:cdBack, 'none', {})
-call <sid>hi('Search', s:cdNone, s:cdSearch, 'none', {})
-call <sid>hi('SpecialKey', s:cdBlue, s:cdNone, 'none', {})
-call <sid>hi('StatusLine', s:cdFront, s:cdLeftMid, 'none', {})
-call <sid>hi('StatusLineNC', s:cdFront, s:cdLeftDark, 'none', {})
-call <sid>hi('TabLine', s:cdFront, s:cdTabOther, 'none', {})
-call <sid>hi('TabLineFill', s:cdFront, s:cdTabOutside, 'none', {})
-call <sid>hi('TabLineSel', s:cdFront, s:cdTabCurrent, 'none', {})
-call <sid>hi('Title', s:cdNone, s:cdNone, 'bold', {})
-call <sid>hi('Visual', s:cdNone, s:cdSelection, 'none', {})
-call <sid>hi('VisualNOS', s:cdNone, s:cdSelection, 'none', {})
-call <sid>hi('WarningMsg', s:cdOrange, s:cdBack, 'none', {})
-call <sid>hi('WildMenu', s:cdNone, s:cdSelection, 'none', {})
-
-" Legacy groups for official git.vim and diff.vim syntax
-hi! link diffAdded DiffAdd
-hi! link diffChanged DiffChange
-hi! link diffRemoved DiffDelete
-
-call <sid>hi('Comment', s:cdGreen, {}, 'none', {})
-
-call <sid>hi('Constant', s:cdBlue, {}, 'none', {})
-call <sid>hi('String', s:cdOrange, {}, 'none', {})
-call <sid>hi('Character', s:cdOrange, {}, 'none', {})
-call <sid>hi('Number', s:cdLightGreen, {}, 'none', {})
-call <sid>hi('Boolean', s:cdBlue, {}, 'none', {})
-call <sid>hi('Float', s:cdLightGreen, {}, 'none', {})
-
-call <sid>hi('Identifier', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('Function', s:cdYellow, {}, 'none', {})
-
-call <sid>hi('Statement', s:cdPink, {}, 'none', {})
-call <sid>hi('Conditional', s:cdPink, {}, 'none', {})
-call <sid>hi('Repeat', s:cdPink, {}, 'none', {})
-call <sid>hi('Label', s:cdPink, {}, 'none', {})
-call <sid>hi('Operator', s:cdFront, {}, 'none', {})
-call <sid>hi('Keyword', s:cdPink, {}, 'none', {})
-call <sid>hi('Exception', s:cdPink, {}, 'none', {})
-
-call <sid>hi('PreProc', s:cdPink, {}, 'none', {})
-call <sid>hi('Include', s:cdPink, {}, 'none', {})
-call <sid>hi('Define', s:cdPink, {}, 'none', {})
-call <sid>hi('Macro', s:cdPink, {}, 'none', {})
-call <sid>hi('PreCondit', s:cdPink, {}, 'none', {})
-
-call <sid>hi('Type', s:cdBlue, {}, 'none', {})
-call <sid>hi('StorageClass', s:cdBlue, {}, 'none', {})
-call <sid>hi('Structure', s:cdBlue, {}, 'none', {})
-call <sid>hi('Typedef', s:cdBlue, {}, 'none', {})
-
-call <sid>hi('Special', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('SpecialChar', s:cdFront, {}, 'none', {})
-call <sid>hi('Tag', s:cdFront, {}, 'none', {})
-call <sid>hi('Delimiter', s:cdFront, {}, 'none', {})
-call <sid>hi('SpecialComment', s:cdGreen, {}, 'none', {})
-call <sid>hi('Debug', s:cdFront, {}, 'none', {})
-
-call <sid>hi('Underlined', s:cdNone, {}, 'underline', {})
-call <sid>hi("Conceal", s:cdFront, s:cdBack, 'none', {})
-
-call <sid>hi('Ignore', s:cdFront, {}, 'none', {})
-
-call <sid>hi('Error', s:cdRed, s:cdBack, 'undercurl', s:cdRed)
-
-call <sid>hi('Todo', s:cdNone, s:cdLeftMid, 'none', {})
-
-call <sid>hi('SpellBad', s:cdRed, s:cdBack, 'undercurl', s:cdRed)
-call <sid>hi('SpellCap', s:cdRed, s:cdBack, 'undercurl', s:cdRed)
-call <sid>hi('SpellRare', s:cdRed, s:cdBack, 'undercurl', s:cdRed)
-call <sid>hi('SpellLocal', s:cdRed, s:cdBack, 'undercurl', s:cdRed)
-
-
-" Neovim Treesitter:
-call <sid>hi('TSError', s:cdRed, {}, 'none', {})
-call <sid>hi('TSPunctDelimiter', s:cdFront, {}, 'none', {})
-call <sid>hi('TSPunctBracket', s:cdFront, {}, 'none', {})
-call <sid>hi('TSPunctSpecial', s:cdFront, {}, 'none', {})
-" Constant
-call <sid>hi('TSConstant', s:cdYellow, {}, 'none', {})
-call <sid>hi('TSConstBuiltin', s:cdBlue, {}, 'none', {})
-call <sid>hi('TSConstMacro', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('TSStringRegex', s:cdOrange, {}, 'none', {})
-call <sid>hi('TSString', s:cdOrange, {}, 'none', {})
-call <sid>hi('TSStringEscape', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('TSCharacter', s:cdOrange, {}, 'none', {})
-call <sid>hi('TSNumber', s:cdLightGreen, {}, 'none', {})
-call <sid>hi('TSBoolean', s:cdBlue, {}, 'none', {})
-call <sid>hi('TSFloat', s:cdLightGreen, {}, 'none', {})
-call <sid>hi('TSAnnotation', s:cdYellow, {}, 'none', {})
-call <sid>hi('TSAttribute', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('TSNamespace', s:cdBlueGreen, {}, 'none', {})
-" Functions
-call <sid>hi('TSFuncBuiltin', s:cdYellow, {}, 'none', {})
-call <sid>hi('TSFunction', s:cdYellow, {}, 'none', {})
-call <sid>hi('TSFuncMacro', s:cdYellow, {}, 'none', {})
-call <sid>hi('TSParameter', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('TSParameterReference', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('TSMethod', s:cdYellow, {}, 'none', {})
-call <sid>hi('TSField', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('TSProperty', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('TSConstructor', s:cdBlueGreen, {}, 'none', {})
-" Keywords
-call <sid>hi('TSConditional', s:cdPink, {}, 'none', {})
-call <sid>hi('TSRepeat', s:cdPink, {}, 'none', {})
-call <sid>hi('TSLabel', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('TSKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('TSKeywordFunction', s:cdPink, {}, 'none', {})
-call <sid>hi('TSKeywordOperator', s:cdBlue, {}, 'none', {})
-call <sid>hi('TSOperator', s:cdFront, {}, 'none', {})
-call <sid>hi('TSException', s:cdPink, {}, 'none', {})
-call <sid>hi('TSType', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('TSTypeBuiltin', s:cdBlue, {}, 'none', {})
-call <sid>hi('TSStructure', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('TSInclude', s:cdPink, {}, 'none', {})
-" Variable
-call <sid>hi('TSVariable', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('TSVariableBuiltin', s:cdLightBlue, {}, 'none', {})
-" Text
-call <sid>hi('TSText', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('TSStrong', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('TSEmphasis', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('TSUnderline', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('TSTitle', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('TSLiteral', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('TSURI', s:cdYellowOrange, {}, 'none', {})
-" Tags
-call <sid>hi('TSTag', s:cdBlue, {}, 'none', {})
-call <sid>hi('TSTagDelimiter', s:cdGray, {}, 'none', {})
-
-" Markdown:
-call <sid>hi('markdownBold', s:cdBlue, {}, 'bold', {})
-call <sid>hi('markdownCode', s:cdOrange, {}, 'none', {})
-call <sid>hi('markdownRule', s:cdBlue, {}, 'bold', {})
-call <sid>hi('markdownCodeDelimiter', s:cdOrange, {}, 'none', {})
-call <sid>hi('markdownHeadingDelimiter', s:cdBlue, {}, 'none', {})
-call <sid>hi('markdownFootnote', s:cdOrange, {}, 'none', {})
-call <sid>hi('markdownFootnoteDefinition', s:cdOrange, {}, 'none', {})
-call <sid>hi('markdownUrl', s:cdLightBlue, {}, 'underline', {})
-call <sid>hi('markdownLinkText', s:cdOrange, {}, 'none', {})
-call <sid>hi('markdownEscape', s:cdYellowOrange, {}, 'none', {})
-
-" Asciidoc (for default syntax highlighting)
-call <sid>hi("asciidocAttributeEntry", s:cdYellowOrange, {}, 'none', {})
-call <sid>hi("asciidocAttributeList", s:cdPink, {}, 'none', {})
-call <sid>hi("asciidocAttributeRef", s:cdYellowOrange, {}, 'none', {})
-call <sid>hi("asciidocHLabel", s:cdBlue, {}, 'bold', {})
-call <sid>hi("asciidocListingBlock", s:cdOrange, {}, 'none', {})
-call <sid>hi("asciidocMacroAttributes", s:cdYellowOrange, {}, 'none', {})
-call <sid>hi("asciidocOneLineTitle", s:cdBlue, {}, 'bold', {})
-call <sid>hi("asciidocPassthroughBlock", s:cdBlue, {}, 'none', {})
-call <sid>hi("asciidocQuotedMonospaced", s:cdOrange, {}, 'none', {})
-call <sid>hi("asciidocTriplePlusPassthrough", s:cdYellow, {}, 'none', {})
-call <sid>hi("asciidocMacro", s:cdPink, {}, 'none', {})
-call <sid>hi("asciidocAdmonition", s:cdOrange, {}, 'none', {})
-call <sid>hi("asciidocQuotedEmphasized", s:cdBlue, {}, 'italic', {})
-call <sid>hi("asciidocQuotedEmphasized2", s:cdBlue, {}, 'italic', {})
-call <sid>hi("asciidocQuotedEmphasizedItalic", s:cdBlue, {}, 'italic', {})
-hi! link asciidocBackslash Keyword
-hi! link asciidocQuotedBold markdownBold
-hi! link asciidocQuotedMonospaced2 asciidocQuotedMonospaced
-hi! link asciidocQuotedUnconstrainedBold asciidocQuotedBold
-hi! link asciidocQuotedUnconstrainedEmphasized asciidocQuotedEmphasized
-hi! link asciidocURL markdownUrl
-
-" JSON:
-call <sid>hi('jsonKeyword', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsonEscape', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('jsonNull', s:cdBlue, {}, 'none', {})
-call <sid>hi('jsonBoolean', s:cdBlue, {}, 'none', {})
-
-" HTML:
-call <sid>hi('htmlTag', s:cdGray, {}, 'none', {})
-call <sid>hi('htmlEndTag', s:cdGray, {}, 'none', {})
-call <sid>hi('htmlTagName', s:cdBlue, {}, 'none', {})
-call <sid>hi('htmlSpecialTagName', s:cdBlue, {}, 'none', {})
-call <sid>hi('htmlArg', s:cdLightBlue, {}, 'none', {})
-
-" PHP:
-call <sid>hi('phpStaticClasses', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('phpMethod', s:cdYellow, {}, 'none', {})
-call <sid>hi('phpClass', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('phpFunction', s:cdYellow, {}, 'none', {})
-call <sid>hi('phpInclude', s:cdBlue, {}, 'none', {})
-call <sid>hi('phpUseClass', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('phpRegion', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('phpMethodsVar', s:cdLightBlue, {}, 'none', {})
-
-" CSS:
-call <sid>hi('cssBraces', s:cdFront, {}, 'none', {})
-call <sid>hi('cssInclude', s:cdPink, {}, 'none', {})
-call <sid>hi('cssTagName', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('cssClassName', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('cssPseudoClass', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('cssPseudoClassId', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('cssPseudoClassLang', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('cssIdentifier', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('cssProp', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('cssDefinition', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('cssAttr', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssAttrRegion', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssColor', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssFunction', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssFunctionName', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssVendor', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssValueNumber', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssValueLength', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssUnitDecorators', s:cdOrange, {}, 'none', {})
-call <sid>hi('cssStyle', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('cssImportant', s:cdBlue, {}, 'none', {})
-
-" JavaScript:
-call <sid>hi('jsVariableDef', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsFuncArgs', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsFuncBlock', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsRegexpString', s:cdLightRed, {}, 'none', {})
-call <sid>hi('jsThis', s:cdBlue, {}, 'none', {})
-call <sid>hi('jsOperatorKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('jsDestructuringBlock', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsObjectKey', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsGlobalObjects', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('jsModuleKeyword', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsClassDefinition', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('jsClassKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('jsExtendsKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('jsExportDefault', s:cdPink, {}, 'none', {})
-call <sid>hi('jsFuncCall', s:cdYellow, {}, 'none', {})
-call <sid>hi('jsObjectValue', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsParen', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsObjectProp', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsIfElseBlock', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsParenIfElse', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsSpreadOperator', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('jsSpreadExpression', s:cdLightBlue, {}, 'none', {})
-
-" Typescript:
-call <sid>hi('typescriptLabel', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptExceptions', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptBraces', s:cdFront, {}, 'none', {})
-call <sid>hi('typescriptEndColons', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptParens', s:cdFront, {}, 'none', {})
-call <sid>hi('typescriptDocTags', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptDocComment', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptLogicSymbols', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptImport', s:cdPink, {}, 'none', {})
-call <sid>hi('typescriptBOM', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptVariableDeclaration', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptVariable', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptExport', s:cdPink, {}, 'none', {})
-call <sid>hi('typescriptAliasDeclaration', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptAliasKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptClassName', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptAccessibilityModifier', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptOperator', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptArrowFunc', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptMethodAccessor', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptMember', s:cdYellow, {}, 'none', {})
-call <sid>hi('typescriptTypeReference', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptDefault', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptTemplateSB', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('typescriptArrowFuncArg', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptParamImpl', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptFuncComma', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptCastKeyword', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptCall', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptCase', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptReserved', s:cdPink, {}, 'none', {})
-call <sid>hi('typescriptDefault', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptDecorator', s:cdYellow, {}, 'none', {})
-call <sid>hi('typescriptPredefinedType', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptClassHeritage', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptClassExtends', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptClassKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptBlock', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptDOMDocProp', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptTemplateSubstitution', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptClassBlock', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptFuncCallArg', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptIndexExpr', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptConditionalParen', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptArray', s:cdYellow, {}, 'none', {})
-call <sid>hi('typescriptES6SetProp', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptObjectLiteral', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptTypeParameter', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptEnumKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptEnum', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptLoopParen', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptParenExp', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptModule', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('typescriptAmbientDeclaration', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptModule', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptFuncTypeArrow', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptInterfaceHeritage', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptInterfaceName', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptInterfaceKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptInterfaceExtends', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptGlobal', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('typescriptAsyncFuncKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptFuncKeyword', s:cdBlue, {}, 'none', {})
-call <sid>hi('typescriptGlobalMethod', s:cdYellow, {}, 'none', {})
-call <sid>hi('typescriptPromiseMethod', s:cdYellow, {}, 'none', {})
-
-" XML:
-call <sid>hi('xmlTag', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('xmlTagName', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('xmlEndTag', s:cdBlueGreen, {}, 'none', {})
-
-" Ruby:
-call <sid>hi('rubyClassNameTag', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('rubyClassName', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('rubyModuleName', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('rubyConstant', s:cdBlueGreen, {}, 'none', {})
-
-" Golang:
-call <sid>hi('goPackage', s:cdBlue, {}, 'none', {})
-call <sid>hi('goImport', s:cdBlue, {}, 'none', {})
-call <sid>hi('goVar', s:cdBlue, {}, 'none', {})
-call <sid>hi('goConst', s:cdBlue, {}, 'none', {})
-call <sid>hi('goStatement', s:cdPink, {}, 'none', {})
-call <sid>hi('goType', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('goSignedInts', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('goUnsignedInts', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('goFloats', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('goComplexes', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('goBuiltins', s:cdYellow, {}, 'none', {})
-call <sid>hi('goBoolean', s:cdBlue, {}, 'none', {})
-call <sid>hi('goPredefinedIdentifiers', s:cdBlue, {}, 'none', {})
-call <sid>hi('goTodo', s:cdGreen, {}, 'none', {})
-call <sid>hi('goDeclaration', s:cdBlue, {}, 'none', {})
-call <sid>hi('goDeclType', s:cdBlue, {}, 'none', {})
-call <sid>hi('goTypeDecl', s:cdBlue, {}, 'none', {})
-call <sid>hi('goTypeName', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('goVarAssign', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('goVarDefs', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('goReceiver', s:cdFront, {}, 'none', {})
-call <sid>hi('goReceiverType', s:cdFront, {}, 'none', {})
-call <sid>hi('goFunctionCall', s:cdYellow, {}, 'none', {})
-call <sid>hi('goMethodCall', s:cdYellow, {}, 'none', {})
-call <sid>hi('goSingleDecl', s:cdLightBlue, {}, 'none', {})
-
-" Python:
-call <sid>hi('pythonStatement', s:cdBlue, {}, 'none', {})
-call <sid>hi('pythonOperator', s:cdBlue, {}, 'none', {})
-call <sid>hi('pythonException', s:cdPink, {}, 'none', {})
-call <sid>hi('pythonExClass', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('pythonBuiltinObj', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('pythonBuiltinType', s:cdBlueGreen, {}, 'none', {})
-call <sid>hi('pythonBoolean', s:cdBlue, {}, 'none', {})
-call <sid>hi('pythonNone', s:cdBlue, {}, 'none', {})
-call <sid>hi('pythonTodo', s:cdBlue, {}, 'none', {})
-call <sid>hi('pythonClassVar', s:cdBlue, {}, 'none', {})
-call <sid>hi('pythonClassDef', s:cdBlueGreen, {}, 'none', {})
-
-" TeX:
-call <sid>hi('texStatement', s:cdBlue, {}, 'none', {})
-call <sid>hi('texBeginEnd', s:cdYellow, {}, 'none', {})
-call <sid>hi('texBeginEndName', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('texOption', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('texBeginEndModifier', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('texDocType', s:cdPink, {}, 'none', {})
-call <sid>hi('texDocTypeArgs', s:cdLightBlue, {}, 'none', {})
-
-" Git:
-call <sid>hi('gitcommitHeader', s:cdGray, {}, 'none', {})
-call <sid>hi('gitcommitOnBranch', s:cdGray, {}, 'none', {})
-call <sid>hi('gitcommitBranch', s:cdPink, {}, 'none', {})
-call <sid>hi('gitcommitComment', s:cdGray, {}, 'none', {})
-call <sid>hi('gitcommitSelectedType', s:cdGreen, {}, 'none', {})
-call <sid>hi('gitcommitSelectedFile', s:cdGreen, {}, 'none', {})
-call <sid>hi('gitcommitDiscardedType', s:cdRed, {}, 'none', {})
-call <sid>hi('gitcommitDiscardedFile', s:cdRed, {}, 'none', {})
-call <sid>hi('gitcommitOverflow', s:cdRed, {}, 'none', {})
-call <sid>hi('gitcommitSummary', s:cdPink, {}, 'none', {})
-call <sid>hi('gitcommitBlank', s:cdPink, {}, 'none', {})
-
-" Lua:
-call <sid>hi('luaFuncCall', s:cdYellow, {}, 'none', {})
-call <sid>hi('luaFuncArgName', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('luaFuncKeyword', s:cdPink, {}, 'none', {})
-call <sid>hi('luaLocal', s:cdPink, {}, 'none', {})
-call <sid>hi('luaBuiltIn', s:cdBlue, {}, 'none', {})
-
-" SH:
-call <sid>hi('shDeref', s:cdLightBlue, {}, 'none', {})
-call <sid>hi('shVariable', s:cdLightBlue, {}, 'none', {})
-
-" SQL:
-call <sid>hi('sqlKeyword', s:cdPink, {}, 'none', {})
-call <sid>hi('sqlFunction', s:cdYellowOrange, {}, 'none', {})
-call <sid>hi('sqlOperator', s:cdPink, {}, 'none', {})
-
-" YAML:
-call <sid>hi('yamlKey', s:cdBlue, {}, 'none', {})
-call <sid>hi('yamlConstant', s:cdBlue, {}, 'none', {})
-
-" Coc Explorer:
-call <sid>hi('CocExplorerIndentLine', s:cdCursorDark, {}, 'none', {})
+hi Normal guifg=#d4d4d4 ctermfg=188 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi Comment guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=italic cterm=italic
+hi Constant guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi String guifg=#ce9178 ctermfg=174 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Character guifg=#ce9178 ctermfg=174 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Number guifg=#b5cea8 ctermfg=151 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Boolean guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Float guifg=#b5cea8 ctermfg=151 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Identifier guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Function guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Statement guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Conditional guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Repeat guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Label guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Operator guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Keyword guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Exception guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi PreProc guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Include guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Define guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Title guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Macro guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi PreCondit guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Type guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StorageClass guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Structure guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Typedef guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Special guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=italic cterm=italic
+hi SpecialComment guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Error guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=bold,reverse cterm=bold,reverse
+hi Todo guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=bold,italic cterm=bold,italic
+hi Underlined guifg=#4ec9b0 ctermfg=79 gui=underline cterm=underline
+hi Cursor guifg=#515052 ctermfg=239 guibg=#aeafad ctermbg=145 gui=NONE cterm=NONE
+hi ColorColumn guifg=NONE ctermfg=NONE guibg=#2c323c ctermbg=236 gui=NONE cterm=NONE
+hi CursorLineNr guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=bold cterm=bold
+hi SignColumn guifg=NONE ctermfg=NONE guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi Conceal guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CursorColumn guifg=NONE ctermfg=NONE guibg=#2c323c ctermbg=236 gui=NONE cterm=NONE
+hi CursorLine guifg=NONE ctermfg=NONE guibg=#2c323c ctermbg=236 gui=NONE cterm=NONE
+hi Directory guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi DiffAdd guifg=#1e1e1e ctermfg=234 guibg=#6a9955 ctermbg=65 gui=NONE cterm=NONE
+hi DiffChange guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi DiffDelete guifg=#1e1e1e ctermfg=234 guibg=#6f1313 ctermbg=52 gui=NONE cterm=NONE
+hi DiffText guifg=#1e1e1e ctermfg=234 guibg=#d7ba7d ctermbg=180 gui=NONE cterm=NONE
+hi ErrorMsg guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi VertSplit guifg=#3e4452 ctermfg=238 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Folded guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi FoldColumn guifg=NONE ctermfg=NONE guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi IncSearch guifg=NONE ctermfg=NONE guibg=#5c6370 ctermbg=241 gui=NONE cterm=NONE
+hi LineNr guifg=#858585 ctermfg=102 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NonText guifg=#3b4048 ctermfg=238 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi Pmenu guifg=#abb2bf ctermfg=249 guibg=#282c34 ctermbg=236 gui=NONE cterm=NONE
+hi PmenuSel guifg=#1e1e1e ctermfg=234 guibg=#569cd6 ctermbg=74 gui=NONE cterm=NONE
+hi PmenuSbar guifg=NONE ctermfg=NONE guibg=#3b4048 ctermbg=238 gui=NONE cterm=NONE
+hi PmenuThumb guifg=NONE ctermfg=NONE guibg=#abb2bf ctermbg=249 gui=NONE cterm=NONE
+hi Question guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi QuickFixLine guifg=NONE ctermfg=NONE guibg=#5c6370 ctermbg=241 gui=NONE cterm=NONE
+hi Search guifg=NONE ctermfg=NONE guibg=#5c6370 ctermbg=241 gui=NONE cterm=NONE
+hi SpecialKey guifg=#3b4048 ctermfg=238 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi SpellBad guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi SpellCap guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi SpellLocal guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi SpellRare guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StatusLine guifg=#abb2bf ctermfg=249 guibg=#2c323c ctermbg=236 gui=NONE cterm=NONE
+hi StatusLineNC guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StatusLineTerm guifg=#abb2bf ctermfg=249 guibg=#2c323c ctermbg=236 gui=NONE cterm=NONE
+hi StatusLineTermNC guifg=#2c323c ctermfg=236 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TabLine guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TabLineSel guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TabLineFill guifg=NONE ctermfg=NONE guibg=#252526 ctermbg=235 gui=NONE cterm=NONE
+hi Terminal guifg=#abb2bf ctermfg=249 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi Visual guifg=NONE ctermfg=NONE guibg=#3e4452 ctermbg=238 gui=NONE cterm=NONE
+hi VisualNOS guifg=#3e4452 ctermfg=238 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi WarningMsg guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi WildMenu guifg=#1e1e1e ctermfg=234 guibg=#569cd6 ctermbg=74 gui=NONE cterm=NONE
+hi EndOfBuffer guifg=#1e1e1e ctermfg=234 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSComment guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSError guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSPunctDelimiter guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSPunctBracket guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSPunctSpecial guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSConstant guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSConstBuiltin guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSConstMacro guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSStringRegex guifg=#ce9178 ctermfg=174 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSString guifg=#ce9178 ctermfg=174 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSStringEscape guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSCharacter guifg=#ce9178 ctermfg=174 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSNumber guifg=#b5cea8 ctermfg=151 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSBoolean guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSFloat guifg=#b5cea8 ctermfg=151 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSAnnotation guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSAttribute guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSNamespace guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSFuncBuiltin guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSFunction guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSFuncMacro guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSParameter guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSParameterReference guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSMethod guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSField guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSProperty guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSConstructor guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSConditional guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSRepeat guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSLabel guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSKeyword guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSKeywordFunction guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSKeywordOperator guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSOperator guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSException guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSType guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSTypeBuiltin guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSStructure guifg=#ff00ff ctermfg=201 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSInclude guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSVariable guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSVariableBuiltin guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSText guifg=#ffff00 ctermfg=226 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSStrong guifg=#ffff00 ctermfg=226 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSEmphasis guifg=#ffff00 ctermfg=226 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSUnderline guifg=#ffff00 ctermfg=226 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSTitle guifg=#ffff00 ctermfg=226 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSLiteral guifg=#ce9178 ctermfg=174 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSURI guifg=NONE ctermfg=NONE guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi TSTag guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSTagDelimiter guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi TSQueryLinterError guifg=#ff8800 ctermfg=208 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlArg guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlBold guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=bold cterm=bold
+hi htmlEndTag guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlH1 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlH2 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlH3 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlH4 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlH5 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlH6 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlItalic guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=italic cterm=italic
+hi htmlLink guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi htmlSpecialChar guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlSpecialTagName guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlTag guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlTagN guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlTagName guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi htmlTitle guifg=#abb2bf ctermfg=249 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownBlockquote guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownBold guifg=#d7ba7d ctermfg=180 guibg=NONE ctermbg=NONE gui=bold cterm=bold
+hi markdownCode guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownCodeBlock guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownCodeDelimiter guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownH1 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownH2 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownH3 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownH4 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownH5 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownH6 guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownHeadingDelimiter guifg=#6f1313 ctermfg=52 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownHeadingRule guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownId guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownIdDeclaration guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownIdDelimiter guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownItalic guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=italic cterm=italic
+hi markdownLinkDelimiter guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownLinkText guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownListMarker guifg=#6f1313 ctermfg=52 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownOrderedListMarker guifg=#6f1313 ctermfg=52 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownRule guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi markdownUrl guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi CocExplorerIndentLine guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerBufferRoot guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerFileRoot guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerBufferFullPath guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerFileFullPath guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerBufferReadonly guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerBufferModified guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerBufferNameVisible guifg=#ce9178 ctermfg=174 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerFileReadonly guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerFileModified guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerFileHidden guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi CocExplorerHelpLine guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi EasyMotionTarget guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=bold cterm=bold
+hi EasyMotionTarget2First guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=bold cterm=bold
+hi EasyMotionTarget2Second guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=bold cterm=bold
+hi EasyMotionShade guifg=NONE ctermfg=NONE guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifyNumber guifg=#b5cea8 ctermfg=151 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifySelect guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifyBracket guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifySpecial guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifyVar guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifyPath guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifyFile guifg=#4ec9b0 ctermfg=79 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifySlash guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifyHeader guifg=#9cdcfe ctermfg=153 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifySection guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi StartifyFooter guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi WhichKey guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi WhichKeySeperator guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi WhichKeyGroup guifg=#4fc1ff ctermfg=75 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi WhichKeyDesc guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi diffAdded guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi diffRemoved guifg=#6f1313 ctermfg=52 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi diffFileId guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=bold,reverse cterm=bold,reverse
+hi diffFile guifg=#3b4048 ctermfg=238 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi diffNewFile guifg=#6a9955 ctermfg=65 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi diffOldFile guifg=#6f1313 ctermfg=52 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi debugPc guifg=NONE ctermfg=NONE guibg=#4ec9b0 ctermbg=79 gui=NONE cterm=NONE
+hi debugBreakpoint guifg=#6f1313 ctermfg=52 guibg=NONE ctermbg=NONE gui=reverse cterm=reverse
+hi GitSignsAdd guifg=#587c0c ctermfg=64 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi GitSignsChange guifg=#0c7d9d ctermfg=31 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi GitSignsDelete guifg=#94151b ctermfg=88 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsUnderlineHint guifg=#729cb3 ctermfg=73 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsSignError guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsSignWarning guifg=#ff8800 ctermfg=208 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsSignInformation guifg=#ffcc66 ctermfg=221 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsSignHint guifg=#4fc1ff ctermfg=75 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsVirtualTextError guifg=#fb0101 ctermfg=196 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsVirtualTextWarning guifg=#ff8800 ctermfg=208 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsVirtualTextInformation guifg=#ffcc66 ctermfg=221 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi LspDiagnosticsVirtualTextHint guifg=#4fc1ff ctermfg=75 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi QuickScopePrimary guifg=#00c7df ctermfg=44 guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi QuickScopeSecondary guifg=#ef5f70 ctermfg=203 guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi MatchWord guifg=NONE ctermfg=NONE guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi MatchParen guifg=NONE ctermfg=NONE guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi MatchWordCur guifg=NONE ctermfg=NONE guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi MatchParenCur guifg=NONE ctermfg=NONE guibg=NONE ctermbg=NONE gui=underline cterm=underline
+hi NvimTreeImageFile guifg=#c586c0 ctermfg=175 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeGitDirty guifg=#81b88b ctermfg=108 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeGitDeleted guifg=#81b88b ctermfg=108 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeGitStaged guifg=#81b88b ctermfg=108 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeGitMerge guifg=#81b88b ctermfg=108 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeGitRenamed guifg=#81b88b ctermfg=108 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeGitNew guifg=#81b88b ctermfg=108 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeIndentMarker guifg=#5c6370 ctermfg=241 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeSymlink guifg=#29b8d8 ctermfg=38 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeFolderIcon guifg=#569cd6 ctermfg=74 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeRootFolder guifg=#d4d4d4 ctermfg=188 guibg=NONE ctermbg=NONE gui=bold cterm=bold
+hi NvimTreeExecFile guifg=#23d18b ctermfg=42 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NvimTreeSpecialFile guifg=#ffcc66 ctermfg=221 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi BufferCurrent guifg=#d4d4d4 ctermfg=188 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferCurrentIndex guifg=#569cd6 ctermfg=74 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferCurrentMod guifg=#d4d4d4 ctermfg=188 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferCurrentSign guifg=#569cd6 ctermfg=74 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferCurrentTarget guifg=#6f1313 ctermfg=52 guibg=#1e1e1e ctermbg=234 gui=bold cterm=bold
+hi BufferVisible guifg=#d4d4d4 ctermfg=188 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferVisibleIndex guifg=#d4d4d4 ctermfg=188 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferVisibleMod guifg=#d4d4d4 ctermfg=188 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferVisibleSign guifg=#d4d4d4 ctermfg=188 guibg=#1e1e1e ctermbg=234 gui=NONE cterm=NONE
+hi BufferVisibleTarget guifg=#6f1313 ctermfg=52 guibg=#1e1e1e ctermbg=234 gui=bold cterm=bold
+hi BufferInactive guifg=#858585 ctermfg=102 guibg=#2e2e2e ctermbg=236 gui=NONE cterm=NONE
+hi BufferInactiveIndex guifg=#858585 ctermfg=102 guibg=#2e2e2e ctermbg=236 gui=NONE cterm=NONE
+hi BufferInactiveMod guifg=#858585 ctermfg=102 guibg=#2e2e2e ctermbg=236 gui=NONE cterm=NONE
+hi BufferInactiveSign guifg=#858585 ctermfg=102 guibg=#2e2e2e ctermbg=236 gui=NONE cterm=NONE
+hi BufferInactiveTarget guifg=#6f1313 ctermfg=52 guibg=#2e2e2e ctermbg=236 gui=bold cterm=bold
+hi CodiVirtualText guifg=#6395ec ctermfg=69 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi IndentBlanklineContextChar guifg=#707070 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
