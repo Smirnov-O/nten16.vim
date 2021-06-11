@@ -37,7 +37,7 @@ hi Typedef guifg=#ecbe7b ctermfg=216 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 hi Special guifg=#008dcd ctermfg=32 guibg=NONE ctermbg=NONE gui=italic cterm=italic
 hi SpecialComment guifg=#1f2324 ctermfg=235 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 hi Error guifg=#ff6c5b ctermfg=203 guibg=NONE ctermbg=NONE gui=bold,reverse cterm=bold,reverse
-hi Todo guifg=#c678dd ctermfg=176 guibg=NONE ctermbg=NONE gui=bold,italic cterm=bold,italic
+hi Todo guifg=#ecbe7b ctermfg=216 guibg=NONE ctermbg=NONE gui=bold,italic cterm=bold,italic
 hi Underlined guifg=#98be65 ctermfg=107 gui=underline cterm=underline
 hi Cursor guifg=#dfdfdf ctermfg=254 guibg=#dfdfdf ctermbg=254 gui=NONE cterm=NONE
 hi ColorColumn guifg=NONE ctermfg=NONE guibg=#1f2324 ctermbg=235 gui=NONE cterm=NONE

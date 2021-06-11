@@ -74,7 +74,7 @@ highlights:
   Special: "blue - i"
   SpecialComment: "line_grey"
   Error: "error_red - br"
-  Todo: "purple - bi"
+  Todo: "info_yellow - bi"
   Underlined: "cyan . u"
   Cursor: "cursor_fg cursor_bg"
 

@@ -261,3 +261,8 @@ hi BufferInactiveSign guifg=#858585 ctermfg=102 guibg=#2e2e2e ctermbg=236 gui=NO
 hi BufferInactiveTarget guifg=#6f1313 ctermfg=52 guibg=#2e2e2e ctermbg=236 gui=bold cterm=bold
 hi CodiVirtualText guifg=#6395ec ctermfg=69 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 hi IndentBlanklineContextChar guifg=#707070 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NeogitDiffAddHighlight guibg=#404040 guifg=#859900 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NeogitDiffDeleteHighlight guibg=#404040 guifg=#dc322f guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NeogitDiffContextHighlight guibg=#333333 guifg=#b2b2b2 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NeogitHunkHeader guifg=#cccccc guibg=#404040 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+hi NeogitHunkHeaderHighlight guifg=#cccccc guibg=#4d4d4d guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
